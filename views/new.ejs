@@ -1,22 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
+<% layout('layouts/boilerplate') %>
+    <div class="row">
+        <div class="col-6 offset-3">
+            <h1 class="text-center">Add new campground</h1>
+            <form class="container" action="/campgrounds" method="post">
+                <div class="row">
+                    <div class="mb-3 col-md-7">
+                        <label for="name" class="form-label">Name</label>
+                        <input name="campground[title]" type="text" class="form-control" id="name" placeholder="Enter the camp name">
+                    </div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>new campground</title>
-</head>
+                    <div class="mb-3 col-md-5">
+                        <label for="price" class="form-label">Price</label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">$</span>
+                            <input name="campground[price]" type="text" class="form-control" id="price" placeholder="Enter the camp price">
+                        </div>
+                    </div>
+                </div>
 
-<body>
-    <h1>Add new campground</h1>
-    <form action="/campgrounds" method="post">
-        <input type="text" name="campground[title]" placeholder="Enter the name">
-        <input type="text" name="campground[location]" placeholder="Enter the location">
-        <button>submit</button>
-    </form>
-    <div>
-        <a href="/campgrounds">Back to campgrounds page</a>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input name="campground[image]" type="text" class="form-control" id="image" placeholder="Enter the camp image url">
+                </div>
+
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input name="campground[location]" type="text" class="form-control" id="location" placeholder="Enter the camp location">
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea name="campground[description]" type="text" class="form-control" id="description"
+                        placeholder="Enter the camp description"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <button class="btn btn-success">submit</button>
+                </div>
+            </form>
+            <div class="container">
+                <a href="/campgrounds">Back to campgrounds page</a>
+            </div>
+        </div>
     </div>
-</body>
-
-</html>

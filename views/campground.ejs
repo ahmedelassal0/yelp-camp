@@ -1,21 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= campground.title %></title>
-</head>
-<body>
-    <h1><%= campground.title %></h1>
-    <p><%= campground.location %></p>
-    <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method="post">
-        <button>Delete</button>
-    </form>
-    <div>
-        <a href="/campgrounds/<%= campground._id %>/edit">edit</a>
+<% layout('layouts/boilerplate') %>
+    <div class="row">
+        <div class="col-md-6 offset-3">
+
+            <div class="card mb-3">
+                <img width="400px" height="400px" src="<%= campground.image %>" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%= campground.title %>
+                    </h5>
+                    <p class="card-text">$<%= campground.price %>/night</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <%= campground.description %>
+                    </li>
+                    <li class="list-group-item text-muted">
+                        <%= campground.location %>
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <a href="/campgrounds/<%= campground._id %>/edit" class="card-link btn btn-success">Edit</a>
+                    <form class="d-inline" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="post">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"> <a href="/campgrounds">Back to campgrounds page</a></li>
+                </ul>
+
+            </div>
+        </div>
     </div>
-    <div>
-        <a href="/campgrounds">Back to campgrounds page</a>
-    </div>
-</body>
-</html>

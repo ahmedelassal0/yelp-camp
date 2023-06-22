@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const app = express();
 const path = require('path');
+const ejsMate = require('ejs-mate');
 const Campground = require('./models/campground');
-const campground = require('./models/campground');
 mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp')
     .then(() => {
         console.log('CONNECTION OPENED TO DATABASE');
@@ -15,7 +15,9 @@ mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp')
 
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 app.set('views', path.join(__dirname, 'views'));
+app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs');
 
 app.listen(3000, () => {
@@ -44,6 +46,7 @@ app.post('/campgrounds', async (req, res) => {
 })
 
 app.put('/campgrounds/:id', async (req, res) => {
+    console.log(req.body.Campground);
     await Campground.findByIdAndUpdate(req.params.id, req.body.campground);
     res.redirect(`/campgrounds/${req.params.id}`);
 })
