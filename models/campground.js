@@ -1,13 +1,20 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp')
 const Schema = mongoose.Schema;
-
+const Review = require('./review');
 const campGroundSchema = new Schema({
     title: String,
     image: String,
     price: Number,
     description: String,
-    location: String
+    location: String,
+    reviews: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Review'
+    }]
 });
 
-module.exports = mongoose.model('CampGround', campGroundSchema);;
+campGroundSchema.post('findOneAndDelete', async (campground) => {
+    if (campground.reviews)
+        await Review.deleteMany({_id: {$in: campground.reviews}});
+})
+module.exports = mongoose.model('CampGround', campGroundSchema);
