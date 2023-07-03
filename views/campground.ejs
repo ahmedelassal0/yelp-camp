@@ -17,16 +17,22 @@
                         <li class="list-group-item text-muted">
                             <%= campground.location %>
                         </li>
+                        <li class="list-group-item text-muted">
+                            Submitted by: <%= campground.author.username %>
+                        </li>
                     </ul>
-                    <div class="card-body">
-                        <a href="/campgrounds/<%= campground._id %>/edit" class="card-link btn btn-success">Edit</a>
-                        <form class="d-inline" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="post">
-                            <button class="btn btn-danger">Delete</button>
-                        </form>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"> <a href="/campgrounds">Back to campgrounds page</a></li>
-                    </ul>
+                    <% if(currentUser && currentUser.id==campground.author.id){ %>
+                        <div class="card-body">
+                            <a href="/campgrounds/<%= campground._id %>/edit" class="card-link btn btn-success">Edit</a>
+                            <form class="d-inline" action="/campgrounds/<%= campground._id %>?_method=DELETE"
+                                method="post">
+                                <button class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                        <% } %>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"> <a href="/campgrounds">Back to campgrounds page</a></li>
+                            </ul>
                 </div>
             </div>
             <div class="col-6">
@@ -36,6 +42,9 @@
                             <h5 class="card-title">
                                 <%= review.title %>
                             </h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">
+                                Created by: <%= review.author.username %>
+                            </h6>
                             <p class="card-text">
                                 <%= review.description %>
                             </p>
@@ -45,37 +54,45 @@
                                 Rating:
                                 <%= review.rating %>
                             </li>
+                            <% console.log('cu',currentUser._id); %>
+                            <% console.log('ra',review.author._id); %>
+                            <% if(currentUser && currentUser._id.equals(review.author._id)){ %>
                             <li class="list-group-item">
-                                <form action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
+                                <form
+                                    action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                    method="post">
                                     <button class="btn btn-sm btn-danger">Delete</button>
                                 </form>
                             </li>
+                            <% } %>
                         </ul>
                     </div>
                     <% } %>
-                        <div class="card">
-                            <form class="needs-validation mb-3 card-body" action="/campgrounds/<%= campground._id %>/reviews"
-                                method="post" novalidate>
-                                <div class="mb-3">
-                                    <label class="form-label" for="review-title">Title</label>
-                                    <input required class="form-control" name="review[title]" id="review-title"
-                                        type="text">
-                                </div>
+                        <% if(currentUser){ %>
+                            <div class="card">
+                                <form class="needs-validation mb-3 card-body"
+                                    action="/campgrounds/<%= campground._id %>/reviews" method="post" novalidate>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="review-title">Title</label>
+                                        <input required class="form-control" name="review[title]" id="review-title"
+                                            type="text">
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label" for="review-description">Description</label>
-                                    <input required class="form-control" name="review[description]"
-                                        id="review-description" type="text">
-                                </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="review-description">Description</label>
+                                        <input required class="form-control" name="review[description]"
+                                            id="review-description" type="text">
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label" for="review-rating">Rating</label>
-                                    <input required class="form-range" name="review[rating]" min="1" max="5"
-                                        id="review-rating" type="range">
-                                </div>
-                                <button class="btn btn-success">Add reveiw</button>
-                            </form>
-                        </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="review-rating">Rating</label>
+                                        <input required class="form-range" name="review[rating]" min="1" max="5"
+                                            id="review-rating" type="range">
+                                    </div>
+                                    <button class="btn btn-success">Add reveiw</button>
+                                </form>
+                            </div>
+                            <% } %>
             </div>
         </div>
     </div>

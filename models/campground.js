@@ -10,7 +10,11 @@ const campGroundSchema = new Schema({
     reviews: [{
         type: Schema.Types.ObjectId,
         ref: 'Review'
-    }]
+    }],
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    }
 });
 
 campGroundSchema.post('findOneAndDelete', async (campground) => {
