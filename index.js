@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -20,6 +23,10 @@ mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp')
     .catch(e => {
         console.log(e);
     })
+
+app.listen(3000, () => {
+    console.log('SERVING ON PORT 3000');
+})
 
 app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs')
@@ -53,13 +60,11 @@ app.use((req, res, next) => {
     next();
 })
 
+
 app.set('views', path.join(__dirname, 'views'))
 app.use('/campgrounds', campgroundRouter)
 app.use('/campgrounds/:id/reviews', reviewRouter)
 app.use('/', userRouter)
-app.listen(3000, () => {
-    console.log('SERVING ON PORT 3000');
-})
 
 app.all('*', (req, res) => {
     throw new AppError('404 page not found', 404);

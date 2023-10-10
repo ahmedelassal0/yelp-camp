@@ -3,7 +3,7 @@
         <div class="col-6 offset-3">
             <h1 class="text-center">Edit campground</h1>
             <form novalidate class="container needs-validation" action="/campgrounds/<%= campground.id %>?_method=PUT"
-                method="post">
+                method="post" enctype="multipart/form-data">
                 <div class="row">
                     <div class="mb-3 col-md-7">
                         <label for="name" class="form-label">Name</label>
@@ -23,8 +23,8 @@
 
                 <div class="mb-3">
                     <label for="image" class="form-label">Image</label>
-                    <input required value="<%= campground.image %>" name="campground[image]" type="text"
-                        class="form-control" id="image" placeholder="Enter the camp image url">
+                    <input name="image" type="file" class="form-control" id="image" placeholder="Enter the camp image"
+                        multiple>
                 </div>
 
                 <div class="mb-3">
@@ -37,6 +37,18 @@
                     <label for="description" class="form-label">Description</label>
                     <textarea required name="campground[description]" type="text" class="form-control" id="description"
                         placeholder="Enter the camp description"><%= campground.description %></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <% campground.images.forEach((img, i)=> {%>
+                        <img class="img-thumbnail" src="<%= img.thumbnail %>">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="deletedImages[]" value="<%= img.name %>" id="img-<%= i %>">
+                            <label class="form-check-label" for="img-<%= i %>">
+                                Delete
+                            </label>
+                        </div>
+                        <% }) %>
                 </div>
 
                 <div class="mb-3">
